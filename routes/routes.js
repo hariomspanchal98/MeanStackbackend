@@ -15,11 +15,31 @@ router.get('/', (req, resp) => {
             resp.send(doc);
             // console.log(resp.body);
         }
-    })
+    });
+})
+
+router.get('/login', async (req, resp) => {
+    console.log(req.body.name);
+    let data = await Employee.find(
+        {
+            "$or": [
+                { "name": { $regex: req.body.name } },
+                // { "position": { $regex: req.body.position } },
+                // { "dept": { $regex: req.body.dept } },
+            ],
+            // "$or": [
+            //     { "position": { $regex: req.body.position } },
+            // ],
+            // "$or": [
+            //     { "dept": { $regex: req.body.dept } },
+            // ],
+        }
+    );
+    resp.send(data);
 })
 
 router.get('/:id', (req, resp) => {
-   if(ObjectId.isValid(req.params.id)){
+    if (ObjectId.isValid(req.params.id)) {
         Employee.findById(req.params.id, (err, doc) => {
             if (err) {
                 console.log('error in Get application', err);
@@ -29,10 +49,10 @@ router.get('/:id', (req, resp) => {
                 // console.log(resp.body);
             }
         })
-   }
-   else{
+    }
+    else {
         return resp.status(400).send('No records found for - ', req.params.id)
-   }
+    }
 })
 
 router.post('/', (req, resp) => {
@@ -48,50 +68,50 @@ router.post('/', (req, resp) => {
         }
         else {
             resp.send(doc);
-            // console.log(resp.body);
+            console.log(req.body);
         }
     })
 })
 
 router.put('/:id', (req, resp) => {
-    if(ObjectId.isValid(req.params.id)){
+    if (ObjectId.isValid(req.params.id)) {
 
-        let emp ={
+        let emp = {
             name: req.body.name,
             position: req.body.position,
             dept: req.body.dept,
         };
 
-         Employee.findByIdAndUpdate(req.params.id, {$set:emp}, {new:true}, (err, doc) => {
-             if (err) {
-                 console.log('error in Update application', err);
-             }
-             else {
-                 resp.send(doc);
-                 // console.log(resp.body);
-             }
-         })
+        Employee.findByIdAndUpdate(req.params.id, { $set: emp }, { new: true }, (err, doc) => {
+            if (err) {
+                console.log('error in Update application', err);
+            }
+            else {
+                resp.send(doc);
+                // console.log(resp.body);
+            }
+        })
     }
-    else{
-         return resp.status(400).send('No records found for - ', req.params.id)
+    else {
+        return resp.status(400).send('No records found for - ', req.params.id)
     }
- })
+})
 
 router.delete('/:id', (req, resp) => {
-    if(ObjectId.isValid(req.params.id)){
-         Employee.findByIdAndRemove(req.params.id, (err, doc) => {
-             if (err) {
-                 console.log('error in Delete application', err);
-             }
-             else {
-                 resp.send(doc);
-                 // console.log(resp.body);
-             }
-         })
+    if (ObjectId.isValid(req.params.id)) {
+        Employee.findByIdAndRemove(req.params.id, (err, doc) => {
+            if (err) {
+                console.log('error in Delete application', err);
+            }
+            else {
+                resp.send(doc);
+                // console.log(resp.body);
+            }
+        })
     }
-    else{
-         return resp.status(400).send('No records found for - ', req.params.id)
+    else {
+        return resp.status(400).send('No records found for - ', req.params.id)
     }
- })
+})
 
 module.exports = router;

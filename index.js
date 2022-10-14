@@ -8,6 +8,11 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+  });
+
 app.use(cors({origin: 'http://localhost:4200/'}));
 
 app.listen(3000,()=> console.log('server running at 3000') );
