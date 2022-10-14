@@ -8,13 +8,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-  });
+app.use(cors());
 
-app.use(cors({origin: 'https://meanbackend.vercel.app/employees'}));
+app.listen(3000, () => console.log('server running at 3000'));
 
-app.listen(3000,()=> console.log('server running at 3000') );
-
-app.use('/employees',routes);
+app.use('/employees', routes);
