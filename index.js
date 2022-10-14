@@ -13,7 +13,7 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use(cors({origin: 'http://localhost:4200/'}));
+app.use(cors({origin: 'http://localhost:4200'}));
 
 app.listen(3000,()=> console.log('server running at 3000') );
 
