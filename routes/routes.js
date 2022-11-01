@@ -60,6 +60,8 @@ router.post('/', (req, resp) => {
         name: req.body.name,
         position: req.body.position,
         dept: req.body.dept,
+        password: req.body.password,
+        email: req.body.email,
     });
 
     emp.save((err, doc) => {
@@ -80,6 +82,8 @@ router.put('/:id', (req, resp) => {
             name: req.body.name,
             position: req.body.position,
             dept: req.body.dept,
+            password: req.body.password,
+            email: req.body.email,
         };
 
         Employee.findByIdAndUpdate(req.params.id, { $set: emp }, { new: true }, (err, doc) => {
